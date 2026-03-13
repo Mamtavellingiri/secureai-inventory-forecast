@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Forecasting System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-boxes"></i>
+                <h1>Inventory Forecast</h1>
+            </div>
+            <div class="status" id="apiStatus">
+                <i class="fas fa-circle"></i>
+                <span>Checking API...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Input Section -->
+            <div class="input-card">
+                <h2><i class="fas fa-sliders-h"></i> Forecast Parameters</h2>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label><i class="fas fa-barcode"></i> SKU ID</label>
+                        <select id="skuId" class="form-control">
+                            <option value="1">SKU-001 (Electronics)</option>
+                            <option value="2">SKU-002 (Apparel)</option>
+                            <option value="3">SKU-003 (Food)</option>
+                            <option value="4">SKU-004 (Furniture)</option>
+                            <option value="5">SKU-005 (Books)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-store"></i> Location ID</label>
+                        <select id="locationId" class="form-control">
+                            <option value="1">Store-001 (New York)</option>
+                            <option value="2">Store-002 (Los Angeles)</option>
+                            <option value="3">Store-003 (Chicago)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> Start Date</label>
+                        <input type="date" id="startDate" class="form-control" value="2024-01-01">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar"></i> End Date</label>
+                        <input type="date" id="endDate" class="form-control" value="2024-01-31">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Lead Time (days)</label>
+                        <input type="number" id="leadTime" class="form-control" value="7" min="1" max="30">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-chart-line"></i> Service Level</label>
+                        <select id="serviceLevel" class="form-control">
+                            <option value="0.90">90% (Economy)</option>
+                            <option value="0.95" selected>95% (Standard)</option>
+                            <option value="0.99">99% (Premium)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="generateBtn" class="btn-primary">
+                    <i class="fas fa-magic"></i> Generate Forecast
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-card" id="resultsSection" style="display: none;">
+                <h2><i class="fas fa-chart-bar"></i> Forecast Results</h2>
+                
+                <!-- KPIs -->
+                <div class="kpi-grid">
+                    <div class="kpi-item">
+                        <i class="fas fa-calendar-day"></i>
+                        <span class="kpi-label">Avg Daily Demand</span>
+                        <span class="kpi-value" id="avgDailyDemand">-</span>
+                    </div>
+                    <div class="kpi-item">
+                        <i class="fas fa-box"></i>
+                        <span class="kpi-label">Total Forecast</span>
+                        <span class="kpi-value" id="totalForecast">-</span>
+                    </div>
+                    <div class="kpi-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span class="kpi-label">Safety Stock</span>
+                        <span class="kpi-value" id="safetyStock">-</span>
+                    </div>
+                    <div class="kpi-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="kpi-label">Reorder Point</span>
+                        <span class="kpi-value" id="reorderPoint">-</span>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="chart-container">
+                    <canvas id="forecastChart"></canvas>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="recommendation-card" id="recommendationBox">
+                    <i class="fas fa-lightbulb"></i>
+                    <div>
+                        <h3>Inventory Recommendation</h3>
+                        <p id="recommendationText">Generate forecast to see recommendations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner-overlay" style="display: none;">
+            <div class="spinner"></div>
+            <p>Generating forecast...</p>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
